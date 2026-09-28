@@ -37,6 +37,12 @@ function TodoList() {
     });
   };
 
+  const handleDeleteTodo = (index) => {
+    const newTodos = [...todos];
+    newTodos.splice(index, 1);
+    setTodos(newTodos);
+  };
+
   return (
     <>
       <div className="todo-container">
@@ -63,6 +69,7 @@ function TodoList() {
       <div className="todo_main">
         {todos.map((todo, index) => (
           <div key={index} className="todo-item">
+
             <h2>{todo.heading}</h2>
 
             <input
@@ -81,15 +88,21 @@ function TodoList() {
               Add List
             </button>
 
-            <button className="delete-button">
+            <button
+              className="delete-button-heading"
+              onClick={() => handleDeleteTodo(index)}
+            >
               Delete
             </button>
 
             <ul>
               {todo.lists.map((list, listIndex) => (
-                <li key={listIndex}>{list}</li>
+                <li key={listIndex}>
+                  <p>{list}</p>
+                </li>
               ))}
             </ul>
+
           </div>
         ))}
       </div>
