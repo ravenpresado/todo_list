@@ -13,6 +13,30 @@ function TodoList() {
     }
   };
 
+  const handleAddList = (todoIndex) => {
+    const listInput = listInputs[todoIndex];
+
+    if (listInput && listInput.trim() !== '') {
+      const updatedTodos = [...todos];
+
+      updatedTodos[todoIndex].lists.push(listInput);
+
+      setTodos(updatedTodos);
+
+      setListInputs({
+        ...listInputs,
+        [todoIndex]: ''
+      });
+    }
+  };
+
+  const handleListInputChange = (todoIndex, value) => {
+    setListInputs({
+      ...listInputs,
+      [todoIndex]: value
+    });
+  };
+
   return (
     <>
       <div className="todo-container">
@@ -41,9 +65,31 @@ function TodoList() {
           <div key={index} className="todo-item">
             <h2>{todo.heading}</h2>
 
+            <input
+              type="text"
+              placeholder="Enter list item"
+              value={listInputs[index] || ''}
+              onChange={(e) =>
+                handleListInputChange(index, e.target.value)
+              }
+            />
+
+            <button
+              className="add-list-button"
+              onClick={() => handleAddList(index)}
+            >
+              Add List
+            </button>
+
             <button className="delete-button">
               Delete
             </button>
+
+            <ul>
+              {todo.lists.map((list, listIndex) => (
+                <li key={listIndex}>{list}</li>
+              ))}
+            </ul>
           </div>
         ))}
       </div>
